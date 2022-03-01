@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">smell</string>
+    <string name="error_missing_permissions">needs permission</string>
+    <string name="anon">anon</string>
+</resources>

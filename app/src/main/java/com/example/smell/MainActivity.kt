@@ -19,11 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.smell.ui.theme.SmellTheme
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.encodeToJsonElement
 
 val TAG: String = "mfmf"
 
@@ -211,15 +206,15 @@ class MainActivity : ComponentActivity() {
     //}
 
     fun sendIt(toEndpointId: String){
-        var bytesPayload = Payload.fromBytes(byteArrayOf(0xa, 0xb, 0xc, 0xd))
+        //val bytesPayload = Payload.fromBytes(byteArrayOf(0xa, 0xb, 0xc, 0xd))
         // mf
-        //if (masterBlah.isNotEmpty()){
-         //   val json: ByteArray = Json.encodeToString(masterBlah).toByteArray()
-        //    bytesPayload = Payload.fromBytes(json)
-        // }
-        // end mf
+
+        val bytesPayload = Payload.fromBytes(serializeToSend(masterBlah))
+
+        // mf
         Nearby.getConnectionsClient(context).sendPayload(toEndpointId, bytesPayload)
     }
+
 
     //
     // Receivers can expect the PayloadCallback.onPayloadReceived() callback to be invoked
@@ -242,11 +237,12 @@ class MainActivity : ComponentActivity() {
             override fun onPayloadReceived(endpointId: String, payload: Payload) {
                 // This always gets the full data of the payload. Is null if it's not a BYTES payload.
                 if (payload.type == Payload.Type.BYTES) {
-                    val receivedBytes = payload.asBytes()
+                    // val receivedBytes = payload.asBytes()
+
+                    //mf
+                    fromSenderToMasterBlah(payload.asBytes())
                     // mf
-                    //val received: BlahList = Json.decodeFromString(receivedBytes.toString())
-                    //masterBlah.addAll(received)
-                    // mf end
+
                 }
             }
 

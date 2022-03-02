@@ -1,7 +1,12 @@
 package com.example.smell
 
 import android.util.Log
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.Json.Default.encodeToJsonElement
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.encodeToJsonElement
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
@@ -43,6 +48,7 @@ var masterBlah = mutableListOf<Blah>(mm, mm2, mm3)
 
 fun addBlahToMasterBlah(blah: Blah) {
     masterBlah.add(blah)
+
 }
 
 
@@ -200,6 +206,48 @@ fun validateTopics(topicString: String, prefix: String): MutableList<String>{
     return topicList
 }
 
-fun workOutSerialization(){
+fun serializeToSend(b: MutableList<Blah>): ByteArray{
+
+    // Blah
+    // Log.d(TAG, "start: " + masterBlah.toString())
+
+    // Blah to JSON String
+    val jsonString = Json.encodeToString(b)
+    // Log.d(TAG, "Json.encodeToString: " + jsonString)
+
+    // String to ByteArray
+    val jsonB = jsonString.encodeToByteArray()
+
+    return jsonB
+
+    }
+
+fun fromSenderToMasterBlah(jsonB: ByteArray?){
+
+    if (jsonB == null) {
+        return
+    }
+
+    // ByteArray back to String
+    val jsonC = jsonB.contentToString()
+    Log.d(TAG, "ByteArray: " + jsonC)
+
+    // String to Blah
+    val jsonD = jsonB.toString(Charsets.UTF_8)
+    //Log.d(TAG, "decoded back to UTF8 string: " + jsonD)
+
+    val jsonE = Json.decodeFromString<Collection<Blah>>(jsonD)
+    // Blah
+    masterBlah.addAll(jsonE)
+
+    //val jsonE = Json.decodeFromString()
+
+    //val jsonE = Json.decodeFromString(jsonB.toString(Charsets.UTF_8))
+    //val jsonE: BlahList = Json.decodeFromString(jsonD)
+    //val jsonE: BlahList  = Json.decodeFromString(jsonD)
+    //Log.d(TAG, "back to start: " + jsonE.toString())
+
+    // println(byteArray.contentToString()) // [72, 101, 108, 108, 111]
+    //println(byteArray.toString(charset)) // Hello
 
 }

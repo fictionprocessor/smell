@@ -41,10 +41,9 @@ val mm3: Blah = Blah(
     randomNumber = ThreadLocalRandom.current().nextLong()
 )
 
-var blahMail = mutableListOf<Blah>(mm, mm2, mm3)
 
 // most important var: all the blah are in the masterBlah
-var masterBlah = mutableListOf<Blah>(mm, mm2, mm3)
+var masterBlah = mutableListOf<Blah>()
 
 fun addBlahToMasterBlah(blah: Blah) {
     masterBlah.add(blah)
@@ -209,11 +208,11 @@ fun validateTopics(topicString: String, prefix: String): MutableList<String>{
 fun serializeToSend(b: MutableList<Blah>): ByteArray{
 
     // Blah
-    // Log.d(TAG, "start: " + masterBlah.toString())
+    Log.d(TAG, "start: " + b.toString())
 
     // Blah to JSON String
     val jsonString = Json.encodeToString(b)
-    // Log.d(TAG, "Json.encodeToString: " + jsonString)
+    Log.d(TAG, "Json.encodeToString: " + jsonString)
 
     // String to ByteArray
     val jsonB = jsonString.encodeToByteArray()
@@ -229,12 +228,12 @@ fun fromSenderToMasterBlah(jsonB: ByteArray?){
     }
 
     // ByteArray back to String
-    val jsonC = jsonB.contentToString()
-    Log.d(TAG, "ByteArray: " + jsonC)
+    //val jsonC = jsonB.contentToString()
+    //Log.d(TAG, "ByteArray: " + jsonC)
 
     // String to Blah
     val jsonD = jsonB.toString(Charsets.UTF_8)
-    //Log.d(TAG, "decoded back to UTF8 string: " + jsonD)
+    Log.d(TAG, "decoded back to UTF8 string: " + jsonD)
 
     val jsonE = Json.decodeFromString<Collection<Blah>>(jsonD)
     // Blah

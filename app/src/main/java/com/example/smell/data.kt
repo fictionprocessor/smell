@@ -14,13 +14,6 @@ import kotlinx.serialization.json.decodeFromJsonElement
 // data classes
 // ---------------------------------------------------------
 
-// TODO blahList
-// keep a list of all the messages
-// add new ones
-// remove stale ones
-// remove ones deleted by user
-// avoid duplicates
-
 @Serializable
 data class BlahList (
     var blahList: Collection<Blah>

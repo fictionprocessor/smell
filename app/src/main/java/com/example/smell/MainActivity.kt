@@ -38,8 +38,6 @@ class MainActivity : ComponentActivity() {
 
     var blahLoad = byteArrayOf(0xa, 0xb, 0xc, 0xd)
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -78,8 +76,7 @@ class MainActivity : ComponentActivity() {
     // options 	The options for advertising.
 
     private fun startAdvertising() {
-        val advertisingOptions: AdvertisingOptions =
-            AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
+        val advertisingOptions: AdvertisingOptions = AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
         Nearby.getConnectionsClient(context)
             .startAdvertising(
                 getLocalUserName(), SERVICE_ID, connectionLifecycleCallback, advertisingOptions
@@ -88,6 +85,7 @@ class MainActivity : ComponentActivity() {
             .addOnFailureListener { e: Exception? -> }
 
         Log.d(TAG, "started advertising...")
+
     }
 
 
@@ -131,6 +129,7 @@ class MainActivity : ComponentActivity() {
 
             override fun onEndpointLost(endpointId: String) {
                 // A previously discovered endpoint has gone away.
+                Log.d(TAG, "\nlost... $endpointId")
             }
         }
 
@@ -210,9 +209,9 @@ class MainActivity : ComponentActivity() {
         // mf
 
         val bytesPayload = Payload.fromBytes(serializeToSend(masterBlah))
-
         // mf
         Nearby.getConnectionsClient(context).sendPayload(toEndpointId, bytesPayload)
+
     }
 
 

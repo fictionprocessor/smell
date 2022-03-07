@@ -42,11 +42,6 @@ val mm3: Blah = Blah(
 // most important var: all the blah are in the masterBlah
 var masterBlah = mutableListOf<Blah>(mm, mm2, mm3)
 
-fun addBlahToMasterBlah(blah: Blah) {
-    masterBlah.add(blah)
-
-}
-
 
 fun removeFromMasterBlah(id : Long){
     for (b in masterBlah){
@@ -54,10 +49,6 @@ fun removeFromMasterBlah(id : Long){
             masterBlah.remove(b)
         }
     }
-}
-
-fun addAllToMasterBlah(a : Collection<Blah>){
-    masterBlah.addAll(a)
 }
 
 fun removeStaleBlah(){
@@ -75,7 +66,7 @@ fun getFromMasterBlah(searchFor: String): MutableList<Blah> {
 
     val yes: String = searchFor.lowercase().trim()
 
-    var r = mutableListOf<Blah>()
+    val r = mutableListOf<Blah>()
     r.clear()
 
 
@@ -92,7 +83,7 @@ fun getFromMasterBlah(searchFor: String): MutableList<Blah> {
 // used by getFromMasterBlah
 fun getExactTopic(yes: String): MutableList<Blah>{
 
-    var r = mutableListOf<Blah>()
+    val r = mutableListOf<Blah>()
     r.clear()
 
     for (b in masterBlah) {
@@ -111,13 +102,13 @@ fun getExactTopic(yes: String): MutableList<Blah>{
 // used by getFromMasterBlah
 fun publicPrivateOrPersonal(option: String): MutableList<Blah> {
 
-    var r = mutableListOf<Blah>()
+    val r = mutableListOf<Blah>()
     r.clear()
 
-    var yes: String = "#"
-    var no: String = "##"
+    var yes = "#"
+    var no = "##"
 
-    val option = option.lowercase()
+    option.lowercase()
 
     if (option.contains("personal")) {
         yes = "@"
@@ -164,7 +155,7 @@ fun makeBlah(top: String, text: String, prefix: String){
     val topicList = validateTopics(top, prefix)
 
     val randomInteger = (0..99).shuffled().first().toString()
-    val name: String = "anon$randomInteger"
+    val name = "anon$randomInteger"
 
     val shit = Blah(
         topics = topicList,
@@ -181,14 +172,14 @@ fun makeBlah(top: String, text: String, prefix: String){
 
 fun validateTopics(topicString: String, prefix: String): MutableList<String>{
 
-    var topicList = mutableListOf<String>()
+    val topicList = mutableListOf<String>()
     // get string
     // split string into single words
     // prefage words with #, ## or @
     // make into list
     // return
     Log.d(TAG, topicString)
-    var splitTopicString = topicString.split(" ")
+    val splitTopicString = topicString.split(" ")
 
     for (t in splitTopicString){
         if (t.startsWith("#") || t.startsWith("@")) {
@@ -252,11 +243,11 @@ fun fromSenderToMasterBlah(jsonB: ByteArray?){
 
 fun getPublicTopics():MutableList<String>{
 
-    var r = mutableListOf<String>()
+    val r = mutableListOf<String>()
     r.clear()
 
-    var yes: String = "#"
-    var no: String = "##"
+    val yes = "#"
+    val no = "##"
 
     for (b in masterBlah) {
         for (t in b.topics) {

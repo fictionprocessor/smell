@@ -302,7 +302,6 @@ class MainActivity : ComponentActivity() {
                 Manifest.permission.BLUETOOTH_CONNECT,
                 Manifest.permission.BLUETOOTH_SCAN,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-
                 )
         } else {
             listOf(
@@ -341,12 +340,13 @@ class MainActivity : ComponentActivity() {
 
 
 
-@Preview(showBackground = true,)
+@Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     SmellTheme {
         ComposeNavigation()
     }
 }
+
 
 

@@ -24,6 +24,10 @@ class widget {
 
 }
 
+
+
+
+
 @Composable
 fun ComposeNavigation() {
     val navController = rememberNavController()
@@ -32,13 +36,19 @@ fun ComposeNavigation() {
         startDestination = "public_screen"
     ) {
         composable("public_screen") {
-            PublicScreen(navController = navController)
+            var publicBlahs: Collection<Blah> = getFromMasterBlah("public")
+
+            PublicScreen(navController = navController, publicBlahs )
         }
         composable("private_screen") {
-            PrivateScreen(navController = navController)
+            var privateBlahs: Collection<Blah> = getFromMasterBlah("private")
+
+            PrivateScreen(navController = navController, privateBlahs)
         }
         composable("personal_screen") {
-            PersonalScreen(navController = navController)
+            var personalBlahs: Collection<Blah> = getFromMasterBlah("personal")
+
+            PersonalScreen(navController = navController, personalBlahs)
         }
     }
 }
@@ -49,7 +59,8 @@ fun ComposeNavigation() {
 // ------------------------------------------------------------------------------------------
 
 @Composable
-fun PublicScreen(navController: NavController) {
+fun PublicScreen(navController: NavController, publicBlahs: Collection<Blah>) {
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -100,10 +111,13 @@ fun PublicScreen(navController: NavController) {
         // --------------------------
 
         ButtonWithRoundCornerShape("#")
+        var publicButtonList = mutableListOf("##see", "##do", "##wait")
+        ButtonRow(publicButtonList)
 
         // --------------------------
 
-        NotesColumn(notesForColumn = getFromMasterBlah("public"))
+        //NotesColumn(notesForColumn = getFromMasterBlah("public"))
+        NotesColumn(notesForColumn = publicBlahs as MutableList<Blah>)
 
         // --------------------------
 
@@ -127,7 +141,7 @@ fun PublicScreen(navController: NavController) {
 // ------------------------------------------------------------------------------------------
 
 @Composable
-fun PrivateScreen(navController: NavController) {
+fun PrivateScreen(navController: NavController, privateBlahs: Collection<Blah>) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
@@ -184,8 +198,8 @@ fun PrivateScreen(navController: NavController) {
         ButtonWithRoundCornerShape("##")
 
         // --------------------------
-
-        NotesColumn(notesForColumn = getFromMasterBlah("private"))
+        var privateNotesColumnWord by remember { mutableStateOf("public") }
+        NotesColumn(notesForColumn = getFromMasterBlah(privateNotesColumnWord))
 
         // --------------------------
 
@@ -208,7 +222,7 @@ fun PrivateScreen(navController: NavController) {
 // ------------------------------------------------------------------------------------------
 
 @Composable
-fun PersonalScreen(navController: NavController) {
+fun PersonalScreen(navController: NavController, personalBlahs: Collection<Blah>) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
@@ -266,7 +280,8 @@ fun PersonalScreen(navController: NavController) {
 
         // --------------------------
 
-        NotesColumn(notesForColumn = getFromMasterBlah("personal"))
+        // NotesColumn(notesForColumn = getFromMasterBlah("personal"))
+        NotesColumn(notesForColumn = personalBlahs  as MutableList<Blah>)
 
         // --------------------------
 
@@ -330,6 +345,18 @@ fun ButtonWithRoundCornerShape(label: String) {
     }
 }
 
+//ButtonRow(topicsForRow = publicButtonList as MutableList<String>)
+@Composable
+fun ButtonRow(publicButtonList: MutableList<String>) {
+
+    Row()
+    {
+        publicButtonList.forEach { item ->
+            ButtonWithRoundCornerShape(label = item)
+        }
+    }
+
+}
 
 
 

@@ -4,9 +4,6 @@ import android.util.Log
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.Json.Default.encodeToJsonElement
-import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.encodeToJsonElement
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
@@ -43,7 +40,7 @@ val mm3: Blah = Blah(
 
 
 // most important var: all the blah are in the masterBlah
-var masterBlah = mutableListOf<Blah>()
+var masterBlah = mutableListOf<Blah>(mm, mm2, mm3)
 
 fun addBlahToMasterBlah(blah: Blah) {
     masterBlah.add(blah)
@@ -179,6 +176,7 @@ fun makeBlah(top: String, text: String, prefix: String){
     )
 
     masterBlah.add(shit)
+
 }
 
 fun validateTopics(topicString: String, prefix: String): MutableList<String>{
@@ -250,3 +248,9 @@ fun fromSenderToMasterBlah(jsonB: ByteArray?){
     //println(byteArray.toString(charset)) // Hello
 
 }
+
+
+// ----------------------------------------------------------------
+// -------------- STATE FOR COMPOSE -------------------------------
+// ----------------------------------------------------------------
+

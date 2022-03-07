@@ -61,6 +61,7 @@ fun ComposeNavigation() {
 @Composable
 fun PublicScreen(navController: NavController, publicBlahs: Collection<Blah>) {
 
+    var publicFocus: String = "public"
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -111,7 +112,8 @@ fun PublicScreen(navController: NavController, publicBlahs: Collection<Blah>) {
         // --------------------------
 
         ButtonWithRoundCornerShape("#")
-        var publicButtonList = mutableListOf("##see", "##do", "##wait")
+        //var publicButtonList = mutableListOf("#see", "#do", "#wait")
+        var publicButtonList = getPublicTopics()
         ButtonRow(publicButtonList)
 
         // --------------------------

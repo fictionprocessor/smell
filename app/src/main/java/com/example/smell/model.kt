@@ -250,6 +250,25 @@ fun fromSenderToMasterBlah(jsonB: ByteArray?){
 }
 
 
+fun getPublicTopics():MutableList<String>{
+
+    var r = mutableListOf<String>()
+    r.clear()
+
+    var yes: String = "#"
+    var no: String = "##"
+
+    for (b in masterBlah) {
+        for (t in b.topics) {
+            if (t.startsWith(yes) and !(t.startsWith(no))) {
+                r.add(t)
+
+            }
+        }
+    }
+    return r
+}
+
 // ----------------------------------------------------------------
 // -------------- STATE FOR COMPOSE -------------------------------
 // ----------------------------------------------------------------

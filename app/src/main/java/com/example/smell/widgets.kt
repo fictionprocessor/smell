@@ -1,5 +1,7 @@
 package com.example.smell
 
+import android.content.res.Resources
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,283 +9,30 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.tooling.preview.Preview
 
 //class widget {
 //
 //}
 
-@Composable
-fun ComposeNavigation() {
-    val navController = rememberNavController()
-    NavHost(
-        navController = navController,
-        startDestination = "public_screen",
+//var click: String = ""
+//var click by remember { mutableStateOf("") }
 
-    ) {
-        composable("public_screen") {
-            PublicScreen(navController = navController)
-        }
-        composable("private_screen") {
-            PrivateScreen(navController = navController)
-        }
-        composable("personal_screen") {
-            PersonalScreen(navController = navController)
-        }
-    }
-}
-
-
-// ------------------------------------------------------------------------------------------
-// PUBLIC SCREEN
-// ------------------------------------------------------------------------------------------
-
-@Composable
-fun PublicScreen(navController: NavController) {
-
-
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // --------------------------
-
-        var publicTopics by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = publicTopics,
-            onValueChange = { publicTopics = it }
-        )
-
-        // -------------------------
-
-        var publicText by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = publicText,
-            onValueChange = { publicText = it },
-            label = { Text("message...") }
-        )
-
-
-        // --------------------------
-
-        Button(
-            onClick = { makeBlah(publicTopics, publicText, "#") },
-        )
-        {
-            // Inner content including an icon and a text label
-            Icon(
-                Icons.Filled.Place,
-                contentDescription = "Face",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("searching...")
-        }
-
-
-        // --------------------------
-
-        Divider()
-
-        // --------------------------
-
-
-        ButtonRow(getPublicTopics())
-
-        // --------------------------
-
-        NotesColumn(notesForColumn = getFromMasterBlah("public"))
-
-        // --------------------------
-
-        Text(
-            text = "First Screen\n" +
-                    "Click me to go to Private Screen",
-            color = Color.Green,
-            style = TextStyle(textAlign = TextAlign.Center),
-            modifier = Modifier
-                .padding(24.dp)
-                .clickable(onClick = {
-                    // this will navigate to second screen
-                    navController.navigate("private_screen")
-                })
-        )
-    }
-}
-
-// ------------------------------------------------------------------------------------------
-// PRIVATE SCREEN
-// ------------------------------------------------------------------------------------------
-
-@Composable
-fun PrivateScreen(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-
-        var privateTopics by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = privateTopics,
-            onValueChange = { privateTopics = it },
-            label = { Text("topics...") }
-        )
-
-
-        // --------------------------
-
-
-        var privateText by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = privateText,
-            onValueChange = { privateText = it },
-            label = { Text("message...") }
-        )
-
-
-        // --------------------------
-
-
-        Button(
-            onClick = { makeBlah(privateTopics, privateText, "##") },
-            //enabled = onOff,
-
-        )
-        {
-            // Inner content including an icon and a text label
-            Icon(
-                Icons.Filled.ThumbUp,
-                contentDescription = "Place",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("searching...")
-        }
-
-
-        // --------------------------
-
-        Divider()
-
-
-        // --------------------------
-
-        NotesColumn(notesForColumn = getFromMasterBlah("private"))
-
-        // --------------------------
-
-        Text(
-            text = "Second Screen\n" +
-                    "Click me to go to Personal Screen",
-            color = Color.Magenta,
-            style = TextStyle(textAlign = TextAlign.Center),
-            modifier = Modifier.clickable(onClick = {
-                // this will navigate to third screen
-                navController.navigate("personal_screen")
-            })
-        )
-    }
-}
-
-
-// ------------------------------------------------------------------------------------------
-// PERSONAL SCREEN
-// ------------------------------------------------------------------------------------------
-
-@Composable
-fun PersonalScreen(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    )
-    {
-
-
-        var personalTopics by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = personalTopics,
-            onValueChange = { personalTopics = it },
-            label = { Text("@name...") }
-        )
-
-
-        // --------------------------
-
-
-        var personalText by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = personalText,
-            onValueChange = { personalText = it },
-            label = { Text("message...") }
-        )
-
-
-        // --------------------------
-
-
-        Button(
-            onClick = { makeBlah(personalTopics, personalText, "@") },
-            //enabled = onOff,
-        )
-        {
-            // Inner content including an icon and a text label
-            Icon(
-                Icons.Filled.Face,
-                contentDescription = "Face",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("searching...")
-        }
-
-
-        // --------------------------
-
-        Divider()
-
-        // --------------------------
-
-
-
-        // NotesColumn(notesForColumn = getFromMasterBlah("personal"))
-        NotesColumn(notesForColumn = getFromMasterBlah("personal"))
-
-        // --------------------------
-
-        Text(
-            text = "Third Screen\n" +
-                    "Click me to go to Public Screen",
-
-            color = Color.Red,
-            style = TextStyle(textAlign = TextAlign.Center),
-            modifier = Modifier.clickable(onClick = {
-                // this will navigate to first screen
-                navController.navigate("public_screen")
-            })
-        )
-    }
-}
 
 
 // ------------------------------------------------------------------------------------------
@@ -324,9 +73,11 @@ fun NotesColumn(notesForColumn: MutableList<Blah>) {
 }
 
 
+
 @Composable
 fun ButtonWithRoundCornerShape(label: String) {
-    Button(onClick = {}, shape = RoundedCornerShape(20.dp)) {
+
+    Button(onClick = { Log.d(TAG, label )  }, shape = RoundedCornerShape(20.dp)) {
         Text(text = label)
     }
 }
@@ -344,6 +95,24 @@ fun ButtonRow(publicButtonList: MutableList<String>) {
     }
 
 }
+
+
+
+// ---------------------------------
+
+
+
+//-------------------------------------
+// logic
+// ====================================
+// A stateless composable is a composable that cannot directly change any state.
+// State hoisting is the pattern of moving state up to make a component stateless
+//
+// in the composable: add two parameters:
+//
+//    value: T – the current value to display
+//    onValueChange: (T) -> Unit – an event that requests the value to change, where T is the proposed new value
+
 
 
 

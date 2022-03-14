@@ -1,6 +1,8 @@
 package com.example.smell
 
 import android.util.Log
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -241,7 +243,7 @@ fun fromSenderToMasterBlah(jsonB: ByteArray?){
 }
 
 
-fun getPublicTopics():MutableList<String>{
+fun getThePublicTopics():MutableList<String>{
 
     val r = mutableListOf<String>()
     r.clear()
@@ -263,4 +265,19 @@ fun getPublicTopics():MutableList<String>{
 // ----------------------------------------------------------------
 // -------------- STATE FOR COMPOSE -------------------------------
 // ----------------------------------------------------------------
+//State hoisting
+//
+//State hoisting in Compose is a pattern of moving state to a composable's caller to make a composable stateless.
+// The general pattern for state hoisting in Jetpack Compose is to replace the state variable with two parameters:
+//
+//    value: T: the current value to display
+//    onValueChange: (T) -> Unit: an event that requests the value to change, where T is the proposed new value
+//
+
+
+
+// By hoisting the state out of HelloContent, it's easier to reason about the composable,
+// reuse it in different situations, and test. HelloContent is decoupled from how its state is stored.
+// Decoupling means that if you modify or replace HelloScreen, you don't have to change how
+// HelloContent is implemented.
 

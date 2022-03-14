@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -23,6 +24,8 @@ import com.google.android.gms.nearby.connection.*
 val TAG: String = "mfmf"
 
 class MainActivity : ComponentActivity() {
+
+    var click : String = ""
 
     val context: Context = this
 
@@ -38,7 +41,7 @@ class MainActivity : ComponentActivity() {
 
     var blahLoad = byteArrayOf(0xa, 0xb, 0xc, 0xd)
 
-
+    private val stateViewModel by viewModels<StateViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    ComposeNavigation()
+                    ComposeNavigation(stateViewModel)
                 }
             }
         }
@@ -332,23 +335,3 @@ class MainActivity : ComponentActivity() {
     }
 
 }
-
-
-
-
-// --------------------------------------------------------------
-// ui
-//---------------------------------------------------------------
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    SmellTheme {
-        ComposeNavigation()
-    }
-}
-
-
-

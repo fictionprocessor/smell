@@ -1,21 +1,13 @@
 package com.example.smell
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -68,16 +60,16 @@ fun tabsWithSwiping() {
 fun screen(num : Int){
     when (num){ 
         0 -> {
-            screenPublic(num = num, masterBlah)}
+            screenPublic()}
         1 -> {
-            screenPrivate(num = num, masterBlah)}
+            screenPrivate()}
         2 -> {
-            screenPrivate(num = num, masterBlah)}
+            screenPrivate()}
     }
 }
 
 @Composable
-fun screenPublic(num : Int, blahs : MutableList<Blah>){
+fun screenPublic(){
     Text(
         "public layout here",
         modifier = Modifier
@@ -87,9 +79,9 @@ fun screenPublic(num : Int, blahs : MutableList<Blah>){
 }
 
 @Composable
-fun screenPrivate(num : Int, blahs : MutableList<Blah>){
+fun screenPrivate(){
     Text(
-        blahs.toString(),
+        "private",
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
@@ -97,9 +89,9 @@ fun screenPrivate(num : Int, blahs : MutableList<Blah>){
 }
 
 @Composable
-fun screenPersonal(num : Int, blahs : MutableList<Blah>){
+fun screenPersonal(){
     Text(
-        blahs.toString(),
+        "personal",
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
@@ -108,125 +100,3 @@ fun screenPersonal(num : Int, blahs : MutableList<Blah>){
 
 
 
-/*
-@Composable
-fun ComposeNavigation(stateViewModel: StateViewModel) {
-
-    //val items = listOf<TodoItem>()
-    // val blahMaster = mutableListOf<Blah>()
-    // var masterBlah = mutableListOf<Blah>(mm, mm2, mm3)
-
-
-
-    val navController = rememberNavController()
-    NavHost(
-        navController = navController,
-        startDestination = "public_screen",
-
-
-        ) {
-        composable("public_screen") {
-            PublicScreen(navController = navController)
-        }
-        composable("private_screen") {
-            PrivateScreen(navController = navController)
-        }
-        composable("personal_screen") {
-            PersonalScreen(navController = navController)
-        }
-    }
-}
-
-
-// ------------------------------------------------------------------------------------------
-// PUBLIC SCREEN
-// ------------------------------------------------------------------------------------------
-
-@Composable
-fun PublicScreen(navController: NavController) {
-
-    //Log.d(TAG, "blahMaster in PublicScreen: " + blahs)
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-/*
-*/
-        Text(
-            text = "First Screen\n" +
-                    "Click me to go to Private Screen",
-            color = Color.Green,
-            style = TextStyle(textAlign = TextAlign.Center),
-            modifier = Modifier
-                .padding(24.dp)
-                .clickable(onClick = {
-                    // this will navigate to second screen
-                    navController.navigate("private_screen")
-                })
-        )
-    }
-}
-
-
-
-// ------------------------------------------------------------------------------------------
-// PRIVATE SCREEN
-// ------------------------------------------------------------------------------------------
-
-@Composable
-fun PrivateScreen(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-/*
-*/
-        Text(
-            text = "Second Screen\n" +
-                    "Click me to go to Personal Screen",
-            color = Color.Magenta,
-            style = TextStyle(textAlign = TextAlign.Center),
-            modifier = Modifier.clickable(onClick = {
-                // this will navigate to third screen
-                navController.navigate("personal_screen")
-            })
-        )
-    }
-}
-
-
-// ------------------------------------------------------------------------------------------
-// PERSONAL SCREEN
-// ------------------------------------------------------------------------------------------
-
-@Composable
-fun PersonalScreen(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    )
-    {
-
-/*
-*/
-        Text(
-            text = "Third Screen\n" +
-                    "Click me to go to Public Screen",
-
-            color = Color.Red,
-            style = TextStyle(textAlign = TextAlign.Center),
-            modifier = Modifier.clickable(onClick = {
-                // this will navigate to first screen
-                navController.navigate("public_screen")
-            })
-        )
-    }
-}
-
-
-*/

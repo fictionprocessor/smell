@@ -24,6 +24,9 @@ val TAG: String = "mfmf"
 
 class MainActivity : ComponentActivity() {
 
+    lateinit var masterBlah : MutableList<Blah>
+
+
     var click : String = ""
 
     val context: Context = this
@@ -40,7 +43,9 @@ class MainActivity : ComponentActivity() {
 
     var blahLoad = byteArrayOf(0xa, 0xb, 0xc, 0xd)
 
-    private val stateViewModel by viewModels<StateViewModel>()
+
+    val stateViewModel by viewModels<StateViewModel>()
+
 
     @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {

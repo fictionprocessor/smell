@@ -28,19 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 
 
 
-//-------------------------------------
-// logic
-// ====================================
-// A stateless composable is a composable that cannot directly change any state.
-// State hoisting is the pattern of moving state up to make a component stateless
-//
-// in the composable: add two parameters:
-//
-//    value: T – the current value to display
-//    onValueChange: (T) -> Unit – an event that requests the value to change, where T is the proposed new value
-
-
-
 
 
 

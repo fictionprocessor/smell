@@ -12,9 +12,13 @@ import androidx.lifecycle.ViewModel
 
 class StateViewModel : ViewModel() {
 
-    var masterBlah: MutableList<Blah> = mutableListOf<Blah>(mm)
+    var masterBlah = mutableStateListOf<Blah>()
+        private set
 
 
 }
+
+//    var todoItems = mutableStateListOf<TodoItem>()
+//        private set
 
 

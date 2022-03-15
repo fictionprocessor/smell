@@ -1,41 +1,102 @@
 package com.example.smell
 
-import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.pager.rememberPagerState
 
 class screen {
 }
 
+// PLAN
+// 1. make screen stateless. store no variables here.
+// 2. have a long list of arguments passed to each screen for display.
+// Later: all the events trigger the downflow of those arguments from higher up.
 
-// ------------------------------------
-// todoSctivityScreen
-// ------------------------------------
+
+@ExperimentalPagerApi // 1.
+@Preview
+@Composable
+fun tabsWithSwiping() {
+    var tabIndex by remember { mutableStateOf(0) }
+    val tabTitles = listOf("Hello", "There", "World")
+    val pagerState = rememberPagerState() // 2.
+    Column {
+        TabRow(selectedTabIndex = tabIndex,
+            indicator = { tabPositions -> // 3.
+                TabRowDefaults.Indicator(
+                    Modifier.pagerTabIndicatorOffset(
+                        pagerState,
+                        tabPositions
+                    )
+                )
+            }) {
+            tabTitles.forEachIndexed { index, title ->
+                Tab(selected = tabIndex == index,
+                    onClick = { tabIndex = index },
+                    text = { Text(text = title) })
+            }
+        }
+        HorizontalPager( // 4.
+            count = tabTitles.size,
+            state = pagerState,
+        ) { tabIndex ->
+            Text(
+                tabIndex.toString(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+            )
+        }
+    }
+}
+
+@Composable
+fun tabs() {
+    var tabIndex by remember { mutableStateOf(0) } // 1.
+    val tabTitles = listOf("Hello", "There", "World")
+    Column { // 2.
+        TabRow(selectedTabIndex = tabIndex) { // 3.
+            tabTitles.forEachIndexed { index, title ->
+                Tab(selected = tabIndex == index, // 4.
+                    onClick = { tabIndex = index },
+                    text = { Text(text = title) }) // 5.
+            }
+        }
+        when (tabIndex) { // 6.
+            0 -> Text("Hello content")
+            1 -> Text("There content")
+            2 -> Text("World content")
+        }
+    }
+}
+
+/*
+
 @Composable
 fun ComposeNavigation(stateViewModel: StateViewModel) {
 
     //val items = listOf<TodoItem>()
-    val blahMaster = mutableListOf<Blah>()
+    // val blahMaster = mutableListOf<Blah>()
     // var masterBlah = mutableListOf<Blah>(mm, mm2, mm3)
 
 
-    Log.d(TAG, blahMaster.toString())
 
     val navController = rememberNavController()
     NavHost(
@@ -45,7 +106,7 @@ fun ComposeNavigation(stateViewModel: StateViewModel) {
 
         ) {
         composable("public_screen") {
-            PublicScreen(navController = navController, blahMaster)
+            PublicScreen(navController = navController)
         }
         composable("private_screen") {
             PrivateScreen(navController = navController)
@@ -62,9 +123,9 @@ fun ComposeNavigation(stateViewModel: StateViewModel) {
 // ------------------------------------------------------------------------------------------
 
 @Composable
-fun PublicScreen(navController: NavController, blahs: MutableList<Blah>) {
+fun PublicScreen(navController: NavController) {
 
-    Log.d(TAG, "blahMaster in PublicScreen: " + blahs)
+    //Log.d(TAG, "blahMaster in PublicScreen: " + blahs)
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -72,67 +133,8 @@ fun PublicScreen(navController: NavController, blahs: MutableList<Blah>) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-
-        // --------------------------
-
-        var publicTopics by remember { mutableStateOf("#") }
-
-        OutlinedTextField(
-            value = publicTopics,
-            onValueChange = { publicTopics = it }
-        )
-
-
-        // -------------------------
-
-        var publicText by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = publicText,
-            onValueChange = { publicText = it }
-        )
-
-
-        // --------------------------
-
-        Button(
-            //onClick = { makeBlah(
-            //  //
-            //  publicTextEntry(),
-            //  "#"
-            //) },
-            onClick = {  }
-
-        )
-        {
-            // Inner content including an icon and a text label
-            Icon(
-                Icons.Filled.Place,
-                contentDescription = "Face",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("searching...")
-        }
-
-
-
-        // --------------------------
-
-        Divider()
-
-
-        // --------------------------
-
-        ButtonRow(getThePublicTopics())
-
-        // --------------------------
-
-        var click by remember { mutableStateOf("public") }
-        NotesColumn(notesForColumn = blahs)
-
-        // --------------------------
-
+/*
+*/
         Text(
             text = "First Screen\n" +
                     "Click me to go to Private Screen",
@@ -161,60 +163,8 @@ fun PrivateScreen(navController: NavController) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        // -------------------------
-
-        var privateTopics by remember { mutableStateOf("##") }
-
-        OutlinedTextField(
-            value = privateTopics,
-            onValueChange = { privateTopics = it },
-        )
-
-
-        // --------------------------
-
-
-        var privateText by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = privateText,
-            onValueChange = { privateText = it },
-            label = { Text("message...") }
-        )
-
-
-        // --------------------------
-
-
-        Button(
-            onClick = { makeBlah(privateTopics, privateText, "##") },
-            //enabled = onOff,
-
-        )
-        {
-            // Inner content including an icon and a text label
-            Icon(
-                Icons.Filled.ThumbUp,
-                contentDescription = "Place",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("searching...")
-        }
-
-
-        // --------------------------
-
-        Divider()
-
-
-        // --------------------------
-
-        NotesColumn(notesForColumn = getFromMasterBlah("private"))
-
-        // --------------------------
-
+/*
+*/
         Text(
             text = "Second Screen\n" +
                     "Click me to go to Personal Screen",
@@ -242,59 +192,8 @@ fun PersonalScreen(navController: NavController) {
     )
     {
 
-
-        var personalTopics by remember { mutableStateOf("@") }
-
-        OutlinedTextField(
-            value = personalTopics,
-            onValueChange = { personalTopics = it },
-        )
-
-
-        // --------------------------
-
-
-        var personalText by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = personalText,
-            onValueChange = { personalText = it },
-            label = { Text("message...") }
-        )
-
-
-        // --------------------------
-
-
-        Button(
-            onClick = { makeBlah(personalTopics, personalText, "@") },
-            //enabled = onOff,
-        )
-        {
-            // Inner content including an icon and a text label
-            Icon(
-                Icons.Filled.Face,
-                contentDescription = "Face",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("searching...")
-        }
-
-
-        // --------------------------
-
-        Divider()
-
-        // --------------------------
-
-
-
-        // NotesColumn(notesForColumn = getFromMasterBlah("personal"))
-        NotesColumn(notesForColumn = getFromMasterBlah("personal"))
-
-        // --------------------------
-
+/*
+*/
         Text(
             text = "Third Screen\n" +
                     "Click me to go to Public Screen",
@@ -308,3 +207,6 @@ fun PersonalScreen(navController: NavController) {
         )
     }
 }
+
+
+*/

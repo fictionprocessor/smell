@@ -11,38 +11,7 @@ import java.util.concurrent.ThreadLocalRandom
 
 // organise the data here for display in the user interface
 
-
-// ---------------------------------------------------------
-// sample data
-// ---------------------------------------------------------
-
-val mm: Blah = Blah(
-    topics = mutableListOf("#public", "#party", "#police"),
-    author = "author",
-    body = "message",
-    deliveryTime = Calendar.getInstance().timeInMillis,
-    randomNumber = ThreadLocalRandom.current().nextLong()
-    )
-
-val mm2: Blah = Blah(
-    topics = mutableListOf("##sexy", "##movie", "##soccer"),
-    author = "mf",
-    body = " nothing nothing nothing nothing nothing nothing nothing nothing nothing nothing nothing",
-    deliveryTime = 1645577544311,
-    randomNumber = ThreadLocalRandom.current().nextLong()
-)
-
-val mm3: Blah = Blah(
-    topics = mutableListOf("@joe"),
-    "me",
-    "here is the message",
-    1635577544296,
-    randomNumber = ThreadLocalRandom.current().nextLong()
-)
-
-
-// most important var: all the blah are in the masterBlah
-var masterBlah = mutableListOf<Blah>(mm, mm2, mm3)
+/*
 
 
 fun removeFromMasterBlah(id : Long){
@@ -140,15 +109,7 @@ fun publicPrivateOrPersonal(option: String): MutableList<Blah> {
 }
 
 
-// how many hours old is the message
-fun staleness(startTime: Long): Int {
-    val nowTime: Long = Calendar.getInstance().timeInMillis
-    val stale: Long = nowTime - startTime
-    val HOUR: Long = 3600000
-    val hourTime = stale / HOUR
 
-    return hourTime.toInt()
-}
 
 // TODO makeBlah needs author, needs topics validation
 
@@ -196,6 +157,64 @@ fun validateTopics(topicString: String, prefix: String): MutableList<String>{
     return topicList
 }
 
+
+fun getThePublicTopics():MutableList<String>{
+
+    val r = mutableListOf<String>()
+    r.clear()
+
+    val yes = "#"
+    val no = "##"
+
+    for (b in masterBlah) {
+        for (t in b.topics) {
+            if (t.startsWith(yes) and !(t.startsWith(no))) {
+                r.add(t)
+
+            }
+        }
+    }
+    return r
+}
+*/
+// ----------------------------------------------------------------
+// -------------- STATE FOR COMPOSE -------------------------------
+// ----------------------------------------------------------------
+//State hoisting
+//
+//State hoisting in Compose is a pattern of moving state to a composable's caller to make a composable stateless.
+// The general pattern for state hoisting in Jetpack Compose is to replace the state variable with two parameters:
+//
+//    value: T: the current value to display
+//    onValueChange: (T) -> Unit: an event that requests the value to change, where T is the proposed new value
+//
+
+
+
+// By hoisting the state out of HelloContent, it's easier to reason about the composable,
+// reuse it in different situations, and test. HelloContent is decoupled from how its state is stored.
+// Decoupling means that if you modify or replace HelloScreen, you don't have to change how
+// HelloContent is implemented.
+
+
+
+// how many hours old is the message
+fun staleness(startTime: Long): Int {
+    val nowTime: Long = Calendar.getInstance().timeInMillis
+    val stale: Long = nowTime - startTime
+    val HOUR: Long = 3600000
+    val hourTime = stale / HOUR
+
+    return hourTime.toInt()
+}
+
+
+// ----------------------------------------------------------------------------------
+// serialize
+// ----------------------------------------------------------------------------------
+
+
+
 fun serializeToSend(b: MutableList<Blah>): ByteArray{
 
     // Blah
@@ -210,7 +229,7 @@ fun serializeToSend(b: MutableList<Blah>): ByteArray{
 
     return jsonB
 
-    }
+}
 
 fun fromSenderToMasterBlah(jsonB: ByteArray?){
 
@@ -243,41 +262,38 @@ fun fromSenderToMasterBlah(jsonB: ByteArray?){
 }
 
 
-fun getThePublicTopics():MutableList<String>{
+// ---------------------------------------------------------
+// sample data
+// ---------------------------------------------------------
+val mm: Blah = Blah(
+    topics = mutableListOf("#public", "#party", "#police"),
+    author = "author",
+    body = "message",
+    deliveryTime = Calendar.getInstance().timeInMillis,
+    randomNumber = ThreadLocalRandom.current().nextLong()
+)
 
-    val r = mutableListOf<String>()
-    r.clear()
+val mm2: Blah = Blah(
+    topics = mutableListOf("##sexy", "##movie", "##soccer"),
+    author = "mf",
+    body = " nothing nothing nothing nothing nothing nothing nothing nothing nothing nothing nothing",
+    deliveryTime = 1645577544311,
+    randomNumber = ThreadLocalRandom.current().nextLong()
+)
 
-    val yes = "#"
-    val no = "##"
-
-    for (b in masterBlah) {
-        for (t in b.topics) {
-            if (t.startsWith(yes) and !(t.startsWith(no))) {
-                r.add(t)
-
-            }
-        }
-    }
-    return r
-}
-
-// ----------------------------------------------------------------
-// -------------- STATE FOR COMPOSE -------------------------------
-// ----------------------------------------------------------------
-//State hoisting
-//
-//State hoisting in Compose is a pattern of moving state to a composable's caller to make a composable stateless.
-// The general pattern for state hoisting in Jetpack Compose is to replace the state variable with two parameters:
-//
-//    value: T: the current value to display
-//    onValueChange: (T) -> Unit: an event that requests the value to change, where T is the proposed new value
-//
+val mm3: Blah = Blah(
+    topics = mutableListOf("@joe"),
+    "me",
+    "here is the message",
+    1635577544296,
+    randomNumber = ThreadLocalRandom.current().nextLong()
+)
 
 
 
-// By hoisting the state out of HelloContent, it's easier to reason about the composable,
-// reuse it in different situations, and test. HelloContent is decoupled from how its state is stored.
-// Decoupling means that if you modify or replace HelloScreen, you don't have to change how
-// HelloContent is implemented.
+
+// most important var: all the blah are in the masterBlah
+var masterBlah = mutableListOf<Blah>(mm, mm2, mm3)
+
+
 

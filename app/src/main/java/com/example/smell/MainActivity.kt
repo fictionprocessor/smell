@@ -14,10 +14,9 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.smell.ui.theme.SmellTheme
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 
@@ -43,6 +42,7 @@ class MainActivity : ComponentActivity() {
 
     private val stateViewModel by viewModels<StateViewModel>()
 
+    @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    ComposeNavigation(stateViewModel)
+                    tabsWithSwiping()
                 }
             }
         }

@@ -29,13 +29,13 @@ class screen {
 // 2. have a long list of arguments passed to each screen for display.
 // Later: all the events trigger the downflow of those arguments from higher up.
 
-
+// tabs and swiping from https://www.rockandnull.com/jetpack-compose-swipe-pager/
 @ExperimentalPagerApi // 1.
 @Preview
 @Composable
 fun tabsWithSwiping() {
     var tabIndex by remember { mutableStateOf(0) }
-    val tabTitles = listOf("Hello", "There", "World")
+    val tabTitles = listOf("Public", "Personal", "Private")
     val pagerState = rememberPagerState() // 2.
     Column {
         TabRow(selectedTabIndex = tabIndex,
@@ -53,42 +53,62 @@ fun tabsWithSwiping() {
                     text = { Text(text = title) })
             }
         }
-        HorizontalPager( // 4.
+        HorizontalPager(
+            // 4.
             count = tabTitles.size,
             state = pagerState,
-        ) { tabIndex ->
-            Text(
-                tabIndex.toString(),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.White)
-            )
+        )
+        { tabIndex ->
+            screen(tabIndex)
         }
     }
 }
 
 @Composable
-fun tabs() {
-    var tabIndex by remember { mutableStateOf(0) } // 1.
-    val tabTitles = listOf("Hello", "There", "World")
-    Column { // 2.
-        TabRow(selectedTabIndex = tabIndex) { // 3.
-            tabTitles.forEachIndexed { index, title ->
-                Tab(selected = tabIndex == index, // 4.
-                    onClick = { tabIndex = index },
-                    text = { Text(text = title) }) // 5.
-            }
-        }
-        when (tabIndex) { // 6.
-            0 -> Text("Hello content")
-            1 -> Text("There content")
-            2 -> Text("World content")
-        }
+fun screen(num : Int){
+    when (num){ 
+        0 -> {
+            screenPublic(num = num, masterBlah)}
+        1 -> {
+            screenPrivate(num = num, masterBlah)}
+        2 -> {
+            screenPrivate(num = num, masterBlah)}
     }
 }
 
-/*
+@Composable
+fun screenPublic(num : Int, blahs : MutableList<Blah>){
+    Text(
+        "public layout here",
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    )
+}
 
+@Composable
+fun screenPrivate(num : Int, blahs : MutableList<Blah>){
+    Text(
+        blahs.toString(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    )
+}
+
+@Composable
+fun screenPersonal(num : Int, blahs : MutableList<Blah>){
+    Text(
+        blahs.toString(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    )
+}
+
+
+
+/*
 @Composable
 fun ComposeNavigation(stateViewModel: StateViewModel) {
 

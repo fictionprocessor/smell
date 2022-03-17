@@ -20,36 +20,30 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 
-val TAG: String = "mfmf"
+const val TAG: String = "mfmf"
 
 class MainActivity : ComponentActivity() {
 
+    var blahs = mutableListOf<Blah>()
+    var publicBlahs = mutableListOf<Blah>()
+    var privateBlahs = mutableListOf<Blah>()
+    var personalBlahs = mutableListOf<Blah>()
+    var selfBlahs = mutableListOf<Blah>()
+
     lateinit var masterBlah : MutableList<Blah>
-
-
-    var click : String = ""
 
     val context: Context = this
 
-    private fun getLocalUserName(): String {
-        // should return the name the user asks for
-        val randomInteger = (0..99).shuffled().first().toString()
-        return "anon$randomInteger"
-    }
-
-    var SERVICE_ID: String = "smell"
+    var SERVICE_ID: String = "smelly"
 
     private val STRATEGY = Strategy.P2P_CLUSTER
 
-    var blahLoad = byteArrayOf(0xa, 0xb, 0xc, 0xd)
-
-
     val stateViewModel by viewModels<StateViewModel>()
-
 
     @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             SmellTheme {
                 // A surface container using the 'background' color from the theme
@@ -57,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    tabsWithSwiping()
+                    TabsWithSwiping(stateViewModel)
                 }
             }
         }
@@ -218,7 +212,7 @@ class MainActivity : ComponentActivity() {
         //val bytesPayload = Payload.fromBytes(byteArrayOf(0xa, 0xb, 0xc, 0xd))
         // mf
 
-        val bytesPayload = Payload.fromBytes(serializeToSend(masterBlah))
+        val bytesPayload = Payload.fromBytes(serializeToSend(selfBlahs))
         // mf
         Nearby.getConnectionsClient(context).sendPayload(toEndpointId, bytesPayload)
 

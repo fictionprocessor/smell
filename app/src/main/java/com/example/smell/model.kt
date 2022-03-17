@@ -1,8 +1,7 @@
 package com.example.smell
 
 import android.util.Log
-import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -13,12 +12,14 @@ import java.util.concurrent.ThreadLocalRandom
 
 
 
+
+
 // how many hours old is the message
 fun staleness(startTime: Long): Int {
     val nowTime: Long = Calendar.getInstance().timeInMillis
     val stale: Long = nowTime - startTime
-    val HOUR: Long = 3600000
-    val hourTime = stale / HOUR
+    val hour: Long = 3600000
+    val hourTime = stale / hour
 
     return hourTime.toInt()
 }
@@ -29,20 +30,18 @@ fun staleness(startTime: Long): Int {
 // ----------------------------------------------------------------------------------
 
 
-
-fun serializeToSend(b: MutableList<Blah>): ByteArray{
+fun serializeToSend(b: MutableList<Blah>): ByteArray {
 
     // Blah
-    Log.d(TAG, "start: " + b.toString())
+    Log.d(TAG, "start: $b")
 
     // Blah to JSON String
     val jsonString = Json.encodeToString(b)
-    Log.d(TAG, "Json.encodeToString: " + jsonString)
+    Log.d(TAG, "Json.encodeToString: $jsonString")
 
     // String to ByteArray
-    val jsonB = jsonString.encodeToByteArray()
 
-    return jsonB
+    return jsonString.encodeToByteArray()
 
 }
 
@@ -54,11 +53,12 @@ fun fromSenderToMasterBlah(jsonB: ByteArray?){
 
     // String to Blah
     val jsonD = jsonB.toString(Charsets.UTF_8)
-    Log.d(TAG, "decoded back to UTF8 string: " + jsonD)
+    Log.d(TAG, "decoded back to UTF8 string: $jsonD")
 
     val jsonE = Json.decodeFromString<Collection<Blah>>(jsonD)
 
     masterBlah.addAll(jsonE)
+
 
 
 }
@@ -95,7 +95,18 @@ val mm3: Blah = Blah(
 
 
 // most important var: all the blah are in the masterBlah
-var masterBlah = mutableListOf<Blah>(mm, mm2, mm3)
+var masterBlah = mutableListOf(mm, mm2, mm3)
+
+
+
+fun getLocalUserName(): String {
+    // should return the name the user asks for
+    val randomInteger = (0..99).shuffled().first().toString()
+    return "anon$randomInteger"
+}
+
+
+
 
 
 

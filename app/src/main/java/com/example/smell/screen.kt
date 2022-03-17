@@ -1,13 +1,14 @@
 package com.example.smell
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -23,11 +24,11 @@ class screen {
 
 // tabs and swiping from https://www.rockandnull.com/jetpack-compose-swipe-pager/
 @ExperimentalPagerApi // 1.
-@Preview
 @Composable
-fun tabsWithSwiping() {
+fun TabsWithSwiping(stateViewModel: StateViewModel) {
+    Log.d(TAG,  "TabsWithSwiping: \n" + stateViewModel.masterBlah.toString())
     var tabIndex by remember { mutableStateOf(0) }
-    val tabTitles = listOf("Public", "Personal", "Private")
+    val tabTitles = listOf("Public", "Private", "Personal")
     val pagerState = rememberPagerState() // 2.
     Column {
         TabRow(selectedTabIndex = tabIndex,
@@ -51,25 +52,25 @@ fun tabsWithSwiping() {
             state = pagerState,
         )
         { tabIndex ->
-            screen(tabIndex)
+            Screen(tabIndex)
         }
     }
 }
 
 @Composable
-fun screen(num : Int){
+fun Screen(num : Int){
     when (num){ 
         0 -> {
-            screenPublic()}
+            ScreenPublic()}
         1 -> {
-            screenPrivate()}
+            ScreenPrivate()}
         2 -> {
-            screenPrivate()}
+            ScreenPersonal()}
     }
 }
 
 @Composable
-fun screenPublic(){
+fun ScreenPublic(){
     Text(
         "public layout here",
         modifier = Modifier
@@ -79,7 +80,7 @@ fun screenPublic(){
 }
 
 @Composable
-fun screenPrivate(){
+fun ScreenPrivate(){
     Text(
         "private",
         modifier = Modifier
@@ -89,7 +90,7 @@ fun screenPrivate(){
 }
 
 @Composable
-fun screenPersonal(){
+fun ScreenPersonal(){
     Text(
         "personal",
         modifier = Modifier

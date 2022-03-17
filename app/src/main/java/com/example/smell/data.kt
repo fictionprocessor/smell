@@ -21,6 +21,3 @@ data class Blah(
 
 
 
-// Blah: stores the message created by the user
-// val color: Color = Color.Black,
-

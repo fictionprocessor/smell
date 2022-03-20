@@ -74,15 +74,13 @@ fun Screen(num : Int){
 @Composable
 fun ScreenPublic(){
     Column() {
-
-
-    Button(onClick = {blahs.add(mm4)})
+    Button(onClick = { })//addToBlahs(addThis = mm4 ) }) //addToBlahs(mm4) })
     {
         Text("jolene")
     }
 
     Text(
-        blahs.toString(),
+        publicBlahs.toString(),
         modifier = Modifier
     )
 }
@@ -104,7 +102,7 @@ fun ScreenPersonal(){
         Text("Standard")
     }
     Text(
-        personalBlahs.value.toString(),
+        personalBlahs.toString(),
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)

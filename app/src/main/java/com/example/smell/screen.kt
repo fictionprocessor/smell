@@ -1,12 +1,14 @@
 package com.example.smell
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -17,6 +19,7 @@ import com.google.accompanist.pager.rememberPagerState
 class screen {
 }
 
+val mB = com.example.smell.masterBlah()
 // PLAN
 // 1. make screen stateless. store no variables here.
 // 2. have a long list of arguments passed to each screen for display.
@@ -25,8 +28,7 @@ class screen {
 // tabs and swiping from https://www.rockandnull.com/jetpack-compose-swipe-pager/
 @ExperimentalPagerApi // 1.
 @Composable
-fun TabsWithSwiping(stateViewModel: StateViewModel) {
-    Log.d(TAG,  "TabsWithSwiping: \n" + stateViewModel.masterBlah.toString())
+fun TabsWithSwiping() {
     var tabIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf("Public", "Private", "Personal")
     val pagerState = rememberPagerState() // 2.
@@ -71,18 +73,25 @@ fun Screen(num : Int){
 
 @Composable
 fun ScreenPublic(){
+    Column() {
+
+
+    Button(onClick = {blahs.add(mm4)})
+    {
+        Text("jolene")
+    }
+
     Text(
-        "public layout here",
+        blahs.toString(),
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
     )
+}
 }
 
 @Composable
 fun ScreenPrivate(){
     Text(
-        "private",
+        privateBlahs.toString(),
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
@@ -91,8 +100,11 @@ fun ScreenPrivate(){
 
 @Composable
 fun ScreenPersonal(){
+    Button(onClick = { blahs.add(mm4)}) {
+        Text("Standard")
+    }
     Text(
-        "personal",
+        personalBlahs.value.toString(),
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)

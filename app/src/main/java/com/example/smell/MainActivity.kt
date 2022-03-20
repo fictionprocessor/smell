@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -22,23 +21,16 @@ import com.google.android.gms.nearby.connection.*
 
 const val TAG: String = "mfmf"
 
+
+
 class MainActivity : ComponentActivity() {
-
-    var blahs = mutableListOf<Blah>()
-    var publicBlahs = mutableListOf<Blah>()
-    var privateBlahs = mutableListOf<Blah>()
-    var personalBlahs = mutableListOf<Blah>()
-    var selfBlahs = mutableListOf<Blah>()
-
-    lateinit var masterBlah : MutableList<Blah>
 
     val context: Context = this
 
-    var SERVICE_ID: String = "smelly"
+    var SERVICE_ID: String = "smell"
 
     private val STRATEGY = Strategy.P2P_CLUSTER
 
-    val stateViewModel by viewModels<StateViewModel>()
 
     @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    TabsWithSwiping(stateViewModel)
+                    TabsWithSwiping()
                 }
             }
         }
@@ -212,7 +204,9 @@ class MainActivity : ComponentActivity() {
         //val bytesPayload = Payload.fromBytes(byteArrayOf(0xa, 0xb, 0xc, 0xd))
         // mf
 
+        // TODO what is the payload. should be self from blahs
         val bytesPayload = Payload.fromBytes(serializeToSend(selfBlahs))
+        //val bytesPayload = Payload.fromBytes(serializeToSend(mutableListOf(mm, mm2)))
         // mf
         Nearby.getConnectionsClient(context).sendPayload(toEndpointId, bytesPayload)
 

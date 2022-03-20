@@ -1,5 +1,7 @@
 package com.example.smell
 
+import androidx.compose.runtime.Recomposer
+import androidx.compose.runtime.Recomposer.*
 import kotlinx.serialization.Serializable
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
@@ -18,6 +20,9 @@ data class Blah(
     val deliveryTime: Long = Calendar.getInstance().timeInMillis,
     val randomNumber: Long = ThreadLocalRandom.current().nextLong()
 )
+
+// TODO perhaps UUID.random
+// TODO author name
 
 
 

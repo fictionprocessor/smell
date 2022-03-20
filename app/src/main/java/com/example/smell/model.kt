@@ -1,18 +1,15 @@
 package com.example.smell
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.text.font.FontSynthesis.Companion.All
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.*
+import java.util.Collections.addAll
 import java.util.concurrent.ThreadLocalRandom
 
 // organise the data here for display in the user interface
-
-
-
-
 
 // how many hours old is the message
 fun staleness(startTime: Long): Int {
@@ -23,7 +20,6 @@ fun staleness(startTime: Long): Int {
 
     return hourTime.toInt()
 }
-
 
 // ----------------------------------------------------------------------------------
 // serialize
@@ -55,9 +51,12 @@ fun fromSenderToMasterBlah(jsonB: ByteArray?){
     val jsonD = jsonB.toString(Charsets.UTF_8)
     Log.d(TAG, "decoded back to UTF8 string: $jsonD")
 
-    val jsonE = Json.decodeFromString<Collection<Blah>>(jsonD)
+    val jsonE = Json.decodeFromString<List<Blah>>(jsonD)
 
-    masterBlah.addAll(jsonE)
+    // TODO fix next line so list of found blah is added
+    //masterBlah.blahs.addAll(jsonE)
+
+
 
 
 
@@ -91,11 +90,19 @@ val mm3: Blah = Blah(
     randomNumber = ThreadLocalRandom.current().nextLong()
 )
 
+val mm4: Blah = Blah(
+    topics = mutableListOf("@jolene", "#jolene", "##jolene"),
+    author = getLocalUserName(),
+    body = "jolene, jolene, jolene, jolene",
+    deliveryTime = 1635577544296,
+    randomNumber = ThreadLocalRandom.current().nextLong()
+)
+
 
 
 
 // most important var: all the blah are in the masterBlah
-var masterBlah = mutableListOf(mm, mm2, mm3)
+// var masterBlah = mutableListOf(mm, mm2, mm3)
 
 
 

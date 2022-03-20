@@ -1,28 +1,27 @@
 package com.example.smell
 
-
-// store the main data here
-// add functions to manipulate the main data here
-// give variables values here
-// have the results flow down to stateless ui
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 
 
-class masterBlah {
+class masterBlah {}
 
-    var blahs = mutableListOf<Blah>(mm, mm2, mm3)
+    // Recomposition:
+    // The core concept is
+// Recomposition happens only when an observable state change happens.
+    // a mutableList is NOT observable
+    // so, use the most useful data types when manipulating data, then...
+    // create results of an observable type
+    // supply observable type to stateless Compose ui
 
+    // TODO maybe blahs should be a set
+    var blahs = mutableSetOf<Blah>(mm, mm2, mm3)
+    var publicBlahs: MutableState<MutableList<Blah>> = mutableStateOf(getFromMasterBlah("public"))
+    var privateBlahs: MutableState<MutableList<Blah>> = mutableStateOf(getFromMasterBlah("private"))
+    var personalBlahs: MutableState<MutableList<Blah>> = mutableStateOf(getFromMasterBlah("personal"))
 
-    fun add(noteToAdd: Blah){
-        blahs.add(noteToAdd)
-    }
-
-    fun addAll(listNotesToAdd: List<Blah>){
-        blahs.addAll(listNotesToAdd)
-    }
-
-    var publicBlahs = getFromMasterBlah("public")
-    var privateBlahs = getFromMasterBlah("private")
-    var personalBlahs = getFromMasterBlah("personal")
+    // TODO get selfBlahs properly. find 'self' but leave it set / list, no need for ant state shit
+    var selfBlahs = getFromMasterBlah("personal")
 
     // find blahs that have a chosen topic
     fun getFromMasterBlah(searchFor: String): MutableList<Blah> {
@@ -32,25 +31,22 @@ class masterBlah {
         val r = mutableListOf<Blah>()
         r.clear()
 
-
-        if (yes == "public" || yes == "private" || yes == "personal"){
+        if (yes == "public" || yes == "private" || yes == "personal") {
             return publicPrivateOrPersonal(yes)
 
-        }
-        else{
+        } else {
             return getExactTopic(yes)
         }
     }
 
 
-
     // used by getFromMasterBlah
-    fun getExactTopic(yes: String): MutableList<Blah>{
+    fun getExactTopic(yes: String): MutableList<Blah> {
 
         val r = mutableListOf<Blah>()
         r.clear()
 
-        for (b in masterBlah) {
+        for (b in blahs) {
             for (t in b.topics) {
                 if (t.equals(yes)) {
                     r.add(b)
@@ -90,7 +86,7 @@ class masterBlah {
         }
 
 
-        for (b in masterBlah) {
+        for (b in blahs) {
             for (t in b.topics) {
                 if (t.startsWith(yes) and !(t.startsWith(no))) {
                     r.add(b)
@@ -104,4 +100,4 @@ class masterBlah {
 
 
 
-}
+

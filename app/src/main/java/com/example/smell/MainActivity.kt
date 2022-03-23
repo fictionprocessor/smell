@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
 
     val context: Context = this
 
-    var SERVICE_ID: String = "smell"
+    private var SERVICE_ID: String = "smell"
 
     private val STRATEGY = Strategy.P2P_CLUSTER
 
@@ -36,6 +37,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // ViewModel
+        // Create a ViewModel the first time the system calls an activity's onCreate() method.
+        // Re-created activities receive the same MyViewModel instance created by the first activity.
+        // Use the 'by viewModels()' Kotlin property delegate from the activity-ktx artifact
+
+        val smellModel: smellViewModel by viewModels()
+
         setContent {
             SmellTheme {
                 // A surface container using the 'background' color from the theme
@@ -43,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    TabsWithSwiping()
+                    TabsWithSwiping(smellModel)
                 }
             }
         }
@@ -75,7 +83,7 @@ class MainActivity : ComponentActivity() {
         val advertisingOptions: AdvertisingOptions = AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
         Nearby.getConnectionsClient(context)
             .startAdvertising(
-                getLocalUserName(), SERVICE_ID, connectionLifecycleCallback, advertisingOptions
+                authorName(), SERVICE_ID, connectionLifecycleCallback, advertisingOptions
             )
             .addOnSuccessListener { unused: Void? -> }
             .addOnFailureListener { e: Exception? -> }
@@ -116,7 +124,7 @@ class MainActivity : ComponentActivity() {
             override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
                 // An endpoint was found. We request a connection to it.
                 Nearby.getConnectionsClient(context)
-                    .requestConnection(getLocalUserName(), endpointId, connectionLifecycleCallback)
+                    .requestConnection(authorName(), endpointId, connectionLifecycleCallback)
                     .addOnSuccessListener { unused: Void? -> }
                     .addOnFailureListener { e: java.lang.Exception? -> }
 

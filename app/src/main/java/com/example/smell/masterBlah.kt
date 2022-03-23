@@ -1,17 +1,18 @@
 package com.example.smell
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 
 // Recomposition:
-// The core concept is
+// The core concept is:
 // Recomposition happens only when an observable state change happens.
 // a mutableList is NOT observable
 // so, use the most useful data types when manipulating data, then...
 // create results of an observable type
-// supply observable type to stateless Compose ui
+// then supply observable type to stateless Compose ui
 
 
 // TODO maybe blahs should be a set
@@ -25,14 +26,14 @@ var personalBlahs: MutableState<MutableList<Blah>> = mutableStateOf(getFromMaste
 
 
 @Composable
-fun addToBlahs(addThis: Blah) {
+fun AddToBlahs(addThis: Blah) {
     blahs.add(addThis)
-    updateAllTheBlahs()
+    UpdateAllTheBlahs()
 }
 
 //when blahs updates, update publicBlahs, privateBlahs, personalBlahs, selfBlahs
 @Composable
-fun updateAllTheBlahs() {
+fun UpdateAllTheBlahs() {
 
     makePublicBlahs()
     makePrivateBlahs()
@@ -45,7 +46,6 @@ fun updateAllTheBlahs() {
 fun makePublicBlahs(): MutableState<MutableList<Blah>> {
     publicBlahs = remember {  mutableStateOf(getFromMasterBlah("public"))}
     return publicBlahs
-
 }
 
 @Composable
@@ -67,7 +67,7 @@ fun makeSelfBlahs() {
 
 
 // find blahs that have a chosen topic
-fun getFromMasterBlah(searchFor: String): MutableList<Blah> {
+fun getFromMasterBlah(searchFor: String = "none"): MutableList<Blah> {
 
     val yes: String = searchFor.lowercase().trim()
 
@@ -76,10 +76,8 @@ fun getFromMasterBlah(searchFor: String): MutableList<Blah> {
 
     if (yes == "public" || yes == "private" || yes == "personal") {
         return publicPrivateOrPersonal(yes)
-
-    } else {
-        return getExactTopic(yes)
     }
+    return getExactTopic(yes)
 }
 
 
@@ -142,7 +140,25 @@ fun publicPrivateOrPersonal(option: String): MutableList<Blah> {
 
 
 // ---------------------------
-class masterBlah {}
+/*
+//var masterBlahHolster = master()
+
+class master {
+
+    var blahvy = mutableSetOf<Blah>()
+    var blahHolster = mutableStateOf(blahvy)
+
+
+    fun addToMasterBlah(thisBlah : Blah){
+        blahvy.add(mm4)
+        Log.d(TAG, blahvy.toString())
+        Log.d(TAG, blahHolster.toString())
+    }
+}
+*/
+
+
+
 
 
 

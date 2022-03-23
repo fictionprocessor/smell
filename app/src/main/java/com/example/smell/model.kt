@@ -1,12 +1,9 @@
 package com.example.smell
 
 import android.util.Log
-import androidx.compose.ui.text.font.FontSynthesis.Companion.All
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.*
-import java.util.Collections.addAll
 import java.util.concurrent.ThreadLocalRandom
 
 // organise the data here for display in the user interface
@@ -51,14 +48,10 @@ fun fromSenderToMasterBlah(jsonB: ByteArray?){
     val jsonD = jsonB.toString(Charsets.UTF_8)
     Log.d(TAG, "decoded back to UTF8 string: $jsonD")
 
-    val jsonE = Json.decodeFromString<List<Blah>>(jsonD)
+    // val jsonE = Json.decodeFromString<List<Blah>>(jsonD)
 
     // TODO fix next line so list of found blah is added
     //masterBlah.blahs.addAll(jsonE)
-
-
-
-
 
 }
 
@@ -92,7 +85,7 @@ val mm3: Blah = Blah(
 
 val mm4: Blah = Blah(
     topics = mutableListOf("@jolene", "#jolene", "##jolene"),
-    author = getLocalUserName(),
+    author = authorName(),
     body = "jolene, jolene, jolene, jolene",
     deliveryTime = 1635577544296,
     randomNumber = ThreadLocalRandom.current().nextLong()
@@ -106,7 +99,7 @@ val mm4: Blah = Blah(
 
 
 
-fun getLocalUserName(): String {
+fun authorName(): String {
     // should return the name the user asks for
     val randomInteger = (0..99).shuffled().first().toString()
     return "anon$randomInteger"

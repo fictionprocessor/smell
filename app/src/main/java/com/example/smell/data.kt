@@ -1,7 +1,5 @@
 package com.example.smell
 
-import androidx.compose.runtime.Recomposer
-import androidx.compose.runtime.Recomposer.*
 import kotlinx.serialization.Serializable
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
@@ -15,13 +13,15 @@ import java.util.concurrent.ThreadLocalRandom
 @Serializable
 data class Blah(
     var topics: MutableList<String>,
-    val author: String = R.string.anon.toString(),
+    val author: String = authorName(),
     var body: String = "",
     val deliveryTime: Long = Calendar.getInstance().timeInMillis,
     val randomNumber: Long = ThreadLocalRandom.current().nextLong()
 )
 
-// TODO perhaps UUID.random
+
+
+// TODO perhaps UUID.random instead of random number?
 // TODO author name
 
 
